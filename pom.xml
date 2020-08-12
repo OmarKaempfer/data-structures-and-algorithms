@@ -7,6 +7,9 @@
     <groupId>org.example</groupId>
     <artifactId>data-structures-and-algorithms</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -14,6 +17,31 @@
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/pl.pragmatists/JUnitParams -->
+        <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.16.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
