@@ -8,11 +8,9 @@ public interface IBinaryNode {
 
     void setRightChild(IBinaryNode node);
 
-    void setParent(IBinaryNode node);
+    void setValue(int value);
 
     IBinaryNode getLeftChild();
 
     IBinaryNode getRightChild();
-
-    IBinaryNode getParent();
 }

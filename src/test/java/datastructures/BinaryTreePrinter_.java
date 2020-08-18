@@ -1,4 +1,5 @@
-import datastructures.BinaryHeap;
+package datastructures;
+
 import datastructures.utils.BinaryTreePrinter;
 import org.junit.Test;
 
@@ -9,7 +10,8 @@ public class BinaryTreePrinter_ {
     @Test
     public void printBinaryTree() {
 
-        BinaryHeap binaryHeap = new BinaryHeap(IntStream.range(1, 90).toArray());
+        BinaryHeap binaryHeap = new BinaryHeap(IntStream.range(1, 90).toArray(), BinaryHeap.Type.MAX);
         BinaryTreePrinter.printTree(binaryHeap.getRoot());
     }
+
 }

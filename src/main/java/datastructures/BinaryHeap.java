@@ -1,14 +1,24 @@
 package datastructures;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryHeap {
+
+    public enum Type {
+        MIN, MAX
+    }
+
+    public enum RelativePosition {
+        FIRST, SECOND, NONE
+    }
 
     public static class Node implements IBinaryNode {
 
         private int value;
         private IBinaryNode leftChild = null;
         private IBinaryNode rightChild = null;
-        private IBinaryNode parent = null;
 
         public Node(int value) {
             this.value = value;
@@ -21,19 +31,17 @@ public class BinaryHeap {
 
         @Override
         public void setLeftChild(IBinaryNode node) {
-            node.setParent(this);
             this.leftChild = node;
         }
 
         @Override
         public void setRightChild(IBinaryNode node) {
-            node.setParent(this);
             this.rightChild = node;
         }
 
         @Override
-        public void setParent(IBinaryNode node) {
-            this.parent = node;
+        public void setValue(int value) {
+            this.value = value;
         }
 
         @Override
@@ -45,117 +53,193 @@ public class BinaryHeap {
         public IBinaryNode getRightChild() {
             return this.rightChild;
         }
-
-        @Override
-        public IBinaryNode getParent() {
-            return parent;
-        }
     }
 
+    public List<IBinaryNode> arrayList;
+    private Type type;
 
-    private IBinaryNode root = null;
-    private IBinaryNode tail = null;
-
-    public BinaryHeap(int[] array) {
+    public BinaryHeap(int[] array, Type type) {
+        this.type = type;
         buildHeap(array);
     }
 
 
     private void buildHeap(int[] array) {
-
+        this.arrayList = new ArrayList<>(array.length * 2);
         for(int value : array) {
-            insert(value);
+            appendToNextSpot(new Node(value));
         }
+        heapify();
     }
 
 
     public IBinaryNode getRoot() {
-        return root;
+        return arrayList.isEmpty() ? null : arrayList.get(0);
+    }
+
+    public List<IBinaryNode> asList() {
+        return arrayList;
     }
 
 
     public BinaryHeap insert(int value) {
 
         IBinaryNode toBeInserted = new Node(value);
+        appendToNextSpot(toBeInserted);
+        heapify();
 
-        if(root == null) {
-
-            root = toBeInserted;
-            tail = root;
-
-        } else {
-            appendChildTo(toBeInserted, findNextFreeLeafImmediateParent());
-        }
-
-        tail = toBeInserted;
-        return reorderHeap();
-    }
-
-
-    private boolean appendChildTo(IBinaryNode toBeInserted, IBinaryNode currentNode) {
-
-        if(currentNode.getLeftChild() == null) {
-            currentNode.setLeftChild(toBeInserted);
-
-        } else if (currentNode.getRightChild() == null) {
-            currentNode.setRightChild(toBeInserted);
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-
-    private IBinaryNode findNextFreeLeafImmediateParent() {
-
-        if(isRoot(tail)) {
-            return tail;
-        }
-
-        IBinaryNode previousNode = tail;
-        IBinaryNode currentNode = tail.getParent();
-
-        while(!isRoot(currentNode) &&
-                isParentToTheLeft(currentNode, previousNode)) {
-
-            previousNode = currentNode;
-            currentNode = currentNode.getParent();
-        }
-
-        if(currentNode.getRightChild() == null) {
-            return currentNode;
-        }
-
-        if(isRoot(currentNode) && isParentToTheLeft(currentNode, previousNode)) {
-            return findLeftmostChild(currentNode.getLeftChild());
-        }
-
-        return findLeftmostChild(currentNode.getRightChild());
-    }
-
-
-    private BinaryHeap reorderHeap() {
         return this;
     }
 
+    private void appendToNextSpot(IBinaryNode node) {
+        arrayList.add(node);
 
-    private boolean isRoot(IBinaryNode currentNode) {
-        return currentNode.getParent() == null;
+        appendToParent(node, arrayList.size() - 1);
     }
 
+    private void heapify() {
 
-    private boolean isParentToTheLeft(IBinaryNode currentNode, IBinaryNode previousNode) {
-        return previousNode.equals(currentNode.getRightChild());
+        for(int i = arrayList.size() - 1; i >= 0; i--) {
+            adjustDownwards(i);
+        }
     }
 
+    public IBinaryNode removeHead() {
 
-    private IBinaryNode findLeftmostChild(IBinaryNode current) {
-
-        while(current.getLeftChild() != null) {
-            current = current.getLeftChild();
+        if(arrayList.isEmpty()) {
+            return null;
         }
 
-        return current;
+        IBinaryNode head = arrayList.get(0);
+        replaceHeadWithTail();
+        adjustDownwards(0);
+
+        return head;
+    }
+
+    public void adjustDownwards(int parent) {
+
+        if(arrayList.size() <= 1) {
+            return;
+        }
+
+        int firstChild = findLeftChildPosition(parent);
+        int secondChild = findRightChildPosition(parent);
+
+        RelativePosition highestPriorityChild = getHighestPriorityBetween(firstChild, secondChild);
+
+        switch(highestPriorityChild) {
+
+            case FIRST:
+
+                if(getHighestPriorityBetween(parent, firstChild) == RelativePosition.SECOND) {
+                    switchNodes(parent, firstChild);
+                    adjustDownwards(firstChild);
+                }
+                break;
+
+            case SECOND:
+
+                if(getHighestPriorityBetween(parent, secondChild) == RelativePosition.SECOND) {
+                    switchNodes(parent, secondChild);
+                    adjustDownwards(secondChild);
+                }
+                break;
+        }
+    }
+
+    private void switchNodes(int firstNodePosition, int secondNodePosition) {
+
+        IBinaryNode firstNode = arrayList.get(firstNodePosition);
+
+        arrayList.set(firstNodePosition, arrayList.get(secondNodePosition));
+        arrayList.set(secondNodePosition, firstNode);
+        updateChildrenOf(firstNodePosition);
+        updateChildrenOf(secondNodePosition);
+
+        if(exists(findParentPosition(firstNodePosition))) {
+            updateChildrenOf(findParentPosition(firstNodePosition));
+        }
+    }
+
+    private RelativePosition getHighestPriorityBetween(int firstNodePosition, int secondNodePosition) {
+
+        if(!exists(firstNodePosition) && !exists(secondNodePosition)) {
+            return RelativePosition.NONE;
+        }
+
+        if(!exists(firstNodePosition)) {
+            return RelativePosition.SECOND;
+        }
+
+        if(!exists(secondNodePosition)) {
+            return RelativePosition.FIRST;
+        }
+
+        IBinaryNode firstNode = arrayList.get(firstNodePosition);
+        IBinaryNode secondNode = arrayList.get(secondNodePosition);
+
+        switch(type) {
+            case MAX:
+                return firstNode.value() > secondNode.value() ? RelativePosition.FIRST : RelativePosition.SECOND;
+            case MIN:
+                return firstNode.value() < secondNode.value() ? RelativePosition.FIRST : RelativePosition.SECOND;
+        }
+
+        return RelativePosition.NONE;
+    }
+
+    private void replaceHeadWithTail() {
+
+        switchNodes(0, arrayList.size() - 1);
+        arrayList.remove(arrayList.size() - 1);
+
+        if(exists(findParentPosition(arrayList.size()))) {
+            updateChildrenOf(findParentPosition(arrayList.size()));
+        }
+    }
+
+    private void updateChildrenOf(int position) {
+
+        IBinaryNode node = arrayList.get(position);
+        int leftChildPosition = findLeftChildPosition(position);
+        int rightChildPosition = findRightChildPosition(position);
+
+        node.setLeftChild(exists(leftChildPosition) ? arrayList.get(leftChildPosition) : null);
+        node.setRightChild(exists(rightChildPosition) ? arrayList.get(rightChildPosition) : null);
+    }
+
+    private void appendToParent(IBinaryNode toBeInserted, int position) {
+
+        if(position == 0) {
+            return;
+        }
+
+        IBinaryNode parentNode = arrayList.get(findParentPosition(position));
+        if(position % 2 == 1) {
+            parentNode.setLeftChild(toBeInserted);
+        } else {
+            parentNode.setRightChild(toBeInserted);
+        }
+    }
+
+    private int findLeftChildPosition(int parentPosition) {
+
+        int position =  2 * parentPosition + 1;
+        return exists(position) ? position : -1;
+    }
+
+    private int findRightChildPosition(int parentPosition) {
+
+        int position =  2 * parentPosition + 2;
+        return exists(position) ? position : -1;
+    }
+
+    private boolean exists(int position) {
+        return position < arrayList.size() && position >= 0;
+    }
+
+    private int findParentPosition(int childPosition) {
+        return (childPosition - 1) / 2;
     }
 }
