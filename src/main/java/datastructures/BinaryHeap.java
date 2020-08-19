@@ -86,7 +86,7 @@ public class BinaryHeap {
 
         IBinaryNode toBeInserted = new Node(value);
         appendToNextSpot(toBeInserted);
-        heapify();
+        siftUp(arrayList.size() - 1);
 
         return this;
     }
@@ -97,34 +97,33 @@ public class BinaryHeap {
         appendToParent(node, arrayList.size() - 1);
     }
 
+    private void siftUp(int nodePos) {
+
+        int parentPos = findParentPosition(nodePos);
+        IBinaryNode parent = arrayList.get(parentPos);
+        IBinaryNode node = arrayList.get(nodePos);
+
+        if(getHighestPriorityBetween(nodePos, parentPos) == RelativePosition.FIRST) {
+            switchNodes(nodePos, parentPos);
+            siftUp(parentPos);
+        }
+    }
+
     private void heapify() {
 
         for(int i = arrayList.size() - 1; i >= 0; i--) {
-            adjustDownwards(i);
+            siftDown(i);
         }
     }
 
-    public IBinaryNode removeHead() {
-
-        if(arrayList.isEmpty()) {
-            return null;
-        }
-
-        IBinaryNode head = arrayList.get(0);
-        replaceHeadWithTail();
-        adjustDownwards(0);
-
-        return head;
-    }
-
-    public void adjustDownwards(int parent) {
+    public void siftDown(int node) {
 
         if(arrayList.size() <= 1) {
             return;
         }
 
-        int firstChild = findLeftChildPosition(parent);
-        int secondChild = findRightChildPosition(parent);
+        int firstChild = findLeftChildPosition(node);
+        int secondChild = findRightChildPosition(node);
 
         RelativePosition highestPriorityChild = getHighestPriorityBetween(firstChild, secondChild);
 
@@ -132,33 +131,19 @@ public class BinaryHeap {
 
             case FIRST:
 
-                if(getHighestPriorityBetween(parent, firstChild) == RelativePosition.SECOND) {
-                    switchNodes(parent, firstChild);
-                    adjustDownwards(firstChild);
+                if(getHighestPriorityBetween(node, firstChild) == RelativePosition.SECOND) {
+                    switchNodes(node, firstChild);
+                    siftDown(firstChild);
                 }
                 break;
 
             case SECOND:
 
-                if(getHighestPriorityBetween(parent, secondChild) == RelativePosition.SECOND) {
-                    switchNodes(parent, secondChild);
-                    adjustDownwards(secondChild);
+                if(getHighestPriorityBetween(node, secondChild) == RelativePosition.SECOND) {
+                    switchNodes(node, secondChild);
+                    siftDown(secondChild);
                 }
                 break;
-        }
-    }
-
-    private void switchNodes(int firstNodePosition, int secondNodePosition) {
-
-        IBinaryNode firstNode = arrayList.get(firstNodePosition);
-
-        arrayList.set(firstNodePosition, arrayList.get(secondNodePosition));
-        arrayList.set(secondNodePosition, firstNode);
-        updateChildrenOf(firstNodePosition);
-        updateChildrenOf(secondNodePosition);
-
-        if(exists(findParentPosition(firstNodePosition))) {
-            updateChildrenOf(findParentPosition(firstNodePosition));
         }
     }
 
@@ -187,6 +172,33 @@ public class BinaryHeap {
         }
 
         return RelativePosition.NONE;
+    }
+
+    private void switchNodes(int firstNodePosition, int secondNodePosition) {
+
+        IBinaryNode firstNode = arrayList.get(firstNodePosition);
+
+        arrayList.set(firstNodePosition, arrayList.get(secondNodePosition));
+        arrayList.set(secondNodePosition, firstNode);
+        updateChildrenOf(firstNodePosition);
+        updateChildrenOf(secondNodePosition);
+
+        if(exists(findParentPosition(firstNodePosition))) {
+            updateChildrenOf(findParentPosition(firstNodePosition));
+        }
+    }
+
+    public IBinaryNode removeHead() {
+
+        if(arrayList.isEmpty()) {
+            return null;
+        }
+
+        IBinaryNode head = arrayList.get(0);
+        replaceHeadWithTail();
+        siftDown(0);
+
+        return head;
     }
 
     private void replaceHeadWithTail() {

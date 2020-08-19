@@ -66,6 +66,32 @@ public class BinaryHeap_ {
                 .forEach(i -> assertThat(removedNodes.get(i).value()).isGreaterThan(removedNodes.get(i - 1).value()));
     }
 
+    @Test
+    @Parameters(method = "insertCases", source = TestCases.class)
+    public void insertMinHeapElement(int[] array, int toBeInserted) {
+
+        BinaryHeap binaryHeap = new BinaryHeap(array, BinaryHeap.Type.MIN);
+        binaryHeap.insert(toBeInserted);
+
+        List<IBinaryNode> removedNodes = removeAllNodes(new BinaryHeap(array, BinaryHeap.Type.MIN));
+
+        IntStream.range(1, removedNodes.size())
+                .forEach(i -> assertThat(removedNodes.get(i).value()).isGreaterThan(removedNodes.get(i - 1).value()));
+    }
+
+    @Test
+    @Parameters(method = "insertCases", source = TestCases.class)
+    public void insertMaxHeapElement(int[] array, int toBeInserted) {
+
+        BinaryHeap binaryHeap = new BinaryHeap(array, BinaryHeap.Type.MAX);
+        binaryHeap.insert(toBeInserted);
+
+        List<IBinaryNode> removedNodes = removeAllNodes(new BinaryHeap(array, BinaryHeap.Type.MAX));
+
+        IntStream.range(1, removedNodes.size())
+                .forEach(i -> assertThat(removedNodes.get(i - 1).value()).isGreaterThan(removedNodes.get(i).value()));
+    }
+
     private List<IBinaryNode> removeAllNodes(BinaryHeap binaryHeap) {
 
         List<IBinaryNode> removedNodes = new ArrayList<>();
@@ -77,4 +103,5 @@ public class BinaryHeap_ {
 
         return removedNodes;
     }
+
 }
