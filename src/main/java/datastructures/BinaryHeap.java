@@ -10,10 +10,6 @@ public class BinaryHeap {
         MIN, MAX
     }
 
-    public enum RelativePosition {
-        FIRST, SECOND, NONE
-    }
-
     public static class Node implements IBinaryNode {
 
         private int value;
@@ -103,7 +99,7 @@ public class BinaryHeap {
         IBinaryNode parent = arrayList.get(parentPos);
         IBinaryNode node = arrayList.get(nodePos);
 
-        if(getHighestPriorityBetween(nodePos, parentPos) == RelativePosition.FIRST) {
+        if(hasHighestPriorityThan(nodePos, parentPos)) {
             switchNodes(nodePos, parentPos);
             siftUp(parentPos);
         }
@@ -125,40 +121,29 @@ public class BinaryHeap {
         int firstChild = findLeftChildPosition(node);
         int secondChild = findRightChildPosition(node);
 
-        RelativePosition highestPriorityChild = getHighestPriorityBetween(firstChild, secondChild);
+        if(!exists(firstChild) && !exists(secondChild)) {
+            return;
+        }
 
-        switch(highestPriorityChild) {
-
-            case FIRST:
-
-                if(getHighestPriorityBetween(node, firstChild) == RelativePosition.SECOND) {
-                    switchNodes(node, firstChild);
-                    siftDown(firstChild);
-                }
-                break;
-
-            case SECOND:
-
-                if(getHighestPriorityBetween(node, secondChild) == RelativePosition.SECOND) {
-                    switchNodes(node, secondChild);
-                    siftDown(secondChild);
-                }
-                break;
+        if(hasHighestPriorityThan(firstChild, secondChild)) {
+            if(!hasHighestPriorityThan(node, firstChild)) {
+                switchNodes(node, firstChild);
+                siftDown(firstChild);
+            }
+        } else if(!hasHighestPriorityThan(node, secondChild)) {
+            switchNodes(node, secondChild);
+            siftDown(secondChild);
         }
     }
 
-    private RelativePosition getHighestPriorityBetween(int firstNodePosition, int secondNodePosition) {
-
-        if(!exists(firstNodePosition) && !exists(secondNodePosition)) {
-            return RelativePosition.NONE;
-        }
+    private boolean hasHighestPriorityThan(int firstNodePosition, int secondNodePosition) {
 
         if(!exists(firstNodePosition)) {
-            return RelativePosition.SECOND;
+            return false;
         }
 
         if(!exists(secondNodePosition)) {
-            return RelativePosition.FIRST;
+            return true;
         }
 
         IBinaryNode firstNode = arrayList.get(firstNodePosition);
@@ -166,12 +151,12 @@ public class BinaryHeap {
 
         switch(type) {
             case MAX:
-                return firstNode.value() > secondNode.value() ? RelativePosition.FIRST : RelativePosition.SECOND;
+                return firstNode.value() > secondNode.value();
             case MIN:
-                return firstNode.value() < secondNode.value() ? RelativePosition.FIRST : RelativePosition.SECOND;
+                return firstNode.value() < secondNode.value();
+            default:
+                return false;
         }
-
-        return RelativePosition.NONE;
     }
 
     private void switchNodes(int firstNodePosition, int secondNodePosition) {
