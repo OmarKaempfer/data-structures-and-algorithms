@@ -21,6 +21,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="data-structures-and-algorithms" />
+        <module name="data-structures-and-algorithms-java" />
       </profile>
     </annotationProcessing>
   </component>
