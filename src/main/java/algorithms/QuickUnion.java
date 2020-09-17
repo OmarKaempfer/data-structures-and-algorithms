@@ -17,10 +17,10 @@ public class QuickUnion {
      * @param firstElement
      * @param secondElement
      *
-     * Time complexity: 1
+     * Worst case time complexity: N
      */
     public void connect(int firstElement, int secondElement) {
-        elements[firstElement] = secondElement;
+        elements[firstElement] = findRoot(secondElement);
     }
 
 
