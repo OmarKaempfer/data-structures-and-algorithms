@@ -19,4 +19,11 @@ public class AlgorithmsAnalyzerTest {
         assertThat(runTime).isGreaterThan(3000)
                             .isLessThan(3300);
     }
+
+    @Test
+    public void getLogarithmicRatio() throws AlgorithmsAnalyzer.NotEnoughDataException {
+
+        assertThat(AlgorithmsAnalyzer.getLogarithmicRatio(new long[] {0, 2, 4, 8})).isCloseTo(1, withinPercentage(10));
+        assertThat(AlgorithmsAnalyzer.getLogarithmicRatio(new long[] {0, 2, 8, 64})).isCloseTo(2, withinPercentage(10));
+    }
 }

@@ -1,4 +1,4 @@
-package io.github.algorithms;
+package io.github.algorithms.union;
 
 public class QuickUnion {
 

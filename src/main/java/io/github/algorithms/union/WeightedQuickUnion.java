@@ -1,11 +1,11 @@
-package io.github.algorithms;
+package io.github.algorithms.union;
 
-public class CompressedWeightedQuickUnion {
+public class WeightedQuickUnion {
 
     private final int[] elements;
     private final int[] treeSizes;
 
-    public CompressedWeightedQuickUnion(int size) {
+    public WeightedQuickUnion(int size) {
 
         elements = new int[size];
         treeSizes = new int[size];
@@ -55,15 +55,13 @@ public class CompressedWeightedQuickUnion {
     /**
      * @param element
      *
-     * Worst case time complexity: lg* N
-     * The compression done by moving up the parent along the tree when we call the method
-     * flattens the tree. The amortized cost makes it so lg* N is effectively never higher than 5
+     * Worst case time complexity: log N
+     * Height is reduced dramatically by using weighted trees
      * @return
      */
     private int findRoot(int element) {
 
         while(elements[element] != element) {
-            elements[element] = elements[elements[element]];
             element = elements[element];
         }
 

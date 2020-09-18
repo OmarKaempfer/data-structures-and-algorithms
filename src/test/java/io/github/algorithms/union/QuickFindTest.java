@@ -1,6 +1,6 @@
-package io.github.algorithms;
+package io.github.algorithms.union;
 
-import io.github.algorithms.QuickFind;
+import io.github.algorithms.union.QuickFind;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;

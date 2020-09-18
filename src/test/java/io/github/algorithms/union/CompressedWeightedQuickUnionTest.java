@@ -1,6 +1,6 @@
-package io.github.algorithms;
+package io.github.algorithms.union;
 
-import io.github.algorithms.CompressedWeightedQuickUnion;
+import io.github.algorithms.union.CompressedWeightedQuickUnion;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
