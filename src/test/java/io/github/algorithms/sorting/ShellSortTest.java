@@ -6,27 +6,23 @@ import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import static io.github.algorithms.sorting.utils.SortingHelper.*;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(JUnitParamsRunner.class)
-public class SelectionSortTest {
+public class ShellSortTest {
 
     @Test
     @Parameters(method = "provideIntegerCases")
-    public void sortIntegers(Integer[] array) {
-        SelectionSort.sort(array);
-        assertThat(SortingHelper.isSorted(array)).isTrue();
+    public void sort(Integer[] array) {
+        ShellSort.sort(array);
+        assertThat(isSorted(array)).isTrue();
     }
 
-    @Test
-    @Parameters(method = "provideStringCases")
-    public void sortStrings(String[] array) {
-        SelectionSort.sort(array);
-        assertThat(SortingHelper.isSorted(array)).isTrue();
-    }
 
     private Object[][] provideIntegerCases() {
         return new Object[][] {
@@ -36,16 +32,6 @@ public class SelectionSortTest {
                 {new Integer[] {5, 4, 3, 2, 1}},
                 {new Integer[] {1}},
                 {new Integer[] {}}
-        };
-    }
-
-    private Object[][] provideStringCases() {
-        return new Object[][] {
-                {new String[] {"abc", "bbb", "ccc", "ddd"}},
-                {new String[] {"ddd", "ccc", "bbb", "abc"}},
-                {new String[] {"abc", "ccc", "bbb", "ddd"}},
-                {new String[] {"abc"}},
-                {new String[] {}}
         };
     }
 }
