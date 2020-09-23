@@ -2,33 +2,37 @@ package io.github.datastructures;
 
 public class Queue<T> {
 
+    private static final int MIN_SIZE = 8;
+
     private int tail = 0;
     private int head = 0;
-    private T[] elements;
+    private Object[] elements;
 
     public Queue() {
-        this.elements = (T[])new Object[8];
+        this.elements = new Object[MIN_SIZE];
     }
 
     public void enqueue(T element) {
 
         if(tail >= elements.length) {
-            elements = (T[]) resize(elements, elements.length * 2);
+
+            elements = resize(elements, elements.length * 2);
         }
         this.elements[tail++] = element;
     }
 
+    @SuppressWarnings("unchecked")
     public T dequeue() {
 
-        T element = elements[head];
+        T element = (T)elements[head];
         elements[head++] = null;
 
         if(head > tail) {
             head = tail;
         }
 
-        if(tail - head < elements.length / 4) {
-            elements = (T[]) resize(elements, elements.length / 2);
+        if(tail - head < elements.length / 4 && elements.length / 2 >= MIN_SIZE) {
+            elements = resize(elements, elements.length / 2);
         }
 
         return element;

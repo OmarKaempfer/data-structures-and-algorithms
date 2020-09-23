@@ -56,6 +56,14 @@ public class QueueTest {
         assertThat(integerQueue.getSize()).isEqualTo(8);
     }
 
+    @Test
+    public void emptyingQueue() {
+        assertThat(integerQueue.dequeue()).isEqualTo(null);
+        integerQueue.enqueue(1);
+        assertThat(integerQueue.dequeue()).isEqualTo(1);
+        assertThat(integerQueue.dequeue()).isEqualTo(null);
+    }
+
     private void fillQueue(int[] elements) {
         for (int element : elements) {
             integerQueue.enqueue(element);

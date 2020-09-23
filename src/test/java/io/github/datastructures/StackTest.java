@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 @RunWith(JUnitParamsRunner.class)
 public class StackTest {
@@ -57,6 +58,14 @@ public class StackTest {
                 {new int[] {1, 2, 3, 4}, 2, "43"},
                 {new int[] {}, 2, "nullnull"}
         };
+    }
+
+    @Test
+    public void emptyingStack() {
+        assertThat(integerStack.pop()).isEqualTo(null);
+        integerStack.push(1);
+        assertThat(integerStack.pop()).isEqualTo(1);
+        assertThat(integerStack.pop()).isEqualTo(null);
     }
 
     private void fillStack(int[] elements) {
