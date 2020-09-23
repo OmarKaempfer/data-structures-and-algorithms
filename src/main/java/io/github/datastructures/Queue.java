@@ -23,6 +23,10 @@ public class Queue<T> {
         T element = elements[head];
         elements[head++] = null;
 
+        if(head > tail) {
+            head = tail;
+        }
+
         if(tail - head < elements.length / 4) {
             elements = (T[]) resize(elements, elements.length / 2);
         }

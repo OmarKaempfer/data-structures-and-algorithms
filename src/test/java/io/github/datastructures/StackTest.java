@@ -54,7 +54,8 @@ public class StackTest {
     public Object[][] pushPopIntegerCases() {
         return new Object[][] {
                 {new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 9, "987654321"},
-                {new int[] {1, 2, 3, 4}, 2, "43"}
+                {new int[] {1, 2, 3, 4}, 2, "43"},
+                {new int[] {}, 2, "nullnull"}
         };
     }
 

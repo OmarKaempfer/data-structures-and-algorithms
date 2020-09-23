@@ -2,6 +2,7 @@ package io.github.algorithms;
 
 import io.github.utils.AlgorithmsAnalyzer;
 import io.github.utils.ThreeSumAnalyzer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -18,6 +19,7 @@ public class ThreeSumTest {
     }
 
     @Test
+    @Ignore
     public void test() throws AlgorithmsAnalyzer.NotEnoughDataException {
         System.out.println(ThreeSumAnalyzer.getLogarithmicRatio());
     }

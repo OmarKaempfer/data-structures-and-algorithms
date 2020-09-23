@@ -37,7 +37,8 @@ public class QueueTest {
     public Object[][] enqueueDequeueIntegerCases() {
         return new Object[][] {
                 {new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 9, "123456789"},
-                {new int[] {1, 2, 3, 4}, 2, "12"}
+                {new int[] {1, 2, 3, 4}, 2, "12"},
+                {new int[] {}, 2, "nullnull"}
         };
     }
 

@@ -24,6 +24,10 @@ public class Stack<T> {
 
     public T pop() {
 
+        if(tail == 0) {
+            return null;
+        }
+
         T element = (T)elements[--tail];
         elements[tail] = null;
         if(tail < elements.length / 4) {
