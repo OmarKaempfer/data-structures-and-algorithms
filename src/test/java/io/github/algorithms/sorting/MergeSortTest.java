@@ -35,4 +35,26 @@ public class MergeSortTest {
                 {new Integer[] {}, 0, 0, 0},
         };
     }
+
+    @Test
+    @Parameters(method = "provideSortCases")
+    public void sort(Integer[] array) {
+        MergeSort.sort(array);
+        System.out.println(Arrays.toString(array));
+
+        assertThat(SortingHelper.isSorted(array));
+    }
+
+    private Object[][] provideSortCases() {
+        return new Object[][] {
+                {new Integer[] {1, 2, 3, 4, 5}},
+                {new Integer[] {1, 2, 3, 4, 5, 6}},
+                {new Integer[] {1}},
+                {new Integer[] {}},
+                {new Integer[] {5, 4, 3, 2, 1}},
+                {new Integer[] {5, 4, 3, 2, 1, 0}},
+                {new Integer[] {1, 5, 2, 4, 3}},
+                {new Integer[] {1, 5, 2, 4, 3, 0}},
+        };
+    }
 }
