@@ -4,11 +4,13 @@ import static io.github.algorithms.sorting.utils.SortingHelper.*;
 
 public class MergeSort {
 
+    @SuppressWarnings("rawtypes")
     public static Comparable[] sort(Comparable[] array) {
 
         return sort(array, new Comparable[array.length], 0, array.length - 1);
     }
 
+    @SuppressWarnings("rawtypes")
     private static Comparable[] sort(Comparable[] array, Comparable[] aux, int low, int high) {
 
         if(high <= low) {
@@ -19,6 +21,21 @@ public class MergeSort {
         sort(array, aux, low, mid);
         sort(array, aux, mid + 1, high);
         return merge(array, aux, low, mid, high);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static Comparable[] bottomUpSort(Comparable[] array) {
+
+        int N = array.length;
+        Comparable[] aux = new Comparable[N];
+
+        for(int size = 1; size < N; size = 2 * size) {
+            for (int i = 0; i < N - size - 1; i += 2 * size) {
+                merge(array, aux, i, i + size - 1, Math.min(i + 2 * size - 1, N - 1));
+            }
+        }
+
+        return array;
     }
 
     @SuppressWarnings("rawtypes")

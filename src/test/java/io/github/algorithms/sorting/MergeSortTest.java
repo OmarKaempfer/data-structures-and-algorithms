@@ -45,6 +45,15 @@ public class MergeSortTest {
         assertThat(SortingHelper.isSorted(array));
     }
 
+    @Test
+    @Parameters(method = "provideSortCases")
+    public void bottomUpSort(Integer[] array) {
+        MergeSort.bottomUpSort(array);
+        System.out.println(Arrays.toString(array));
+
+        assertThat(SortingHelper.isSorted(array));
+    }
+
     private Object[][] provideSortCases() {
         return new Object[][] {
                 {new Integer[] {1, 2, 3, 4, 5}},
