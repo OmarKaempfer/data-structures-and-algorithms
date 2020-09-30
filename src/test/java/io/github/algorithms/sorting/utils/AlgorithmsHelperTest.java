@@ -8,12 +8,12 @@ import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(JUnitParamsRunner.class)
-public class SortingHelperTest {
+public class AlgorithmsHelperTest {
 
     @Test
     @Parameters(method = "provideCases")
     public void isSorted(Integer[] array, boolean expected) {
-        assertThat(SortingHelper.isSorted(array)).isEqualTo(expected);
+        assertThat(AlgorithmsHelper.isSorted(array)).isEqualTo(expected);
     }
 
     private Object[][] provideCases() {

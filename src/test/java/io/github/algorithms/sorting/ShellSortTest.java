@@ -1,16 +1,14 @@
 package io.github.algorithms.sorting;
 
-import io.github.algorithms.sorting.utils.SortingHelper;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import static io.github.algorithms.sorting.utils.SortingHelper.*;
+import static io.github.algorithms.sorting.utils.AlgorithmsHelper.*;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(JUnitParamsRunner.class)

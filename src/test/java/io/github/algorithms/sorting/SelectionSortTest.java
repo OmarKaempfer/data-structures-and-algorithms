@@ -1,6 +1,6 @@
 package io.github.algorithms.sorting;
 
-import io.github.algorithms.sorting.utils.SortingHelper;
+import io.github.algorithms.sorting.utils.AlgorithmsHelper;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -18,14 +18,14 @@ public class SelectionSortTest {
     @Parameters(method = "provideIntegerCases")
     public void sortIntegers(Integer[] array) {
         SelectionSort.sort(array);
-        assertThat(SortingHelper.isSorted(array)).isTrue();
+        assertThat(AlgorithmsHelper.isSorted(array)).isTrue();
     }
 
     @Test
     @Parameters(method = "provideStringCases")
     public void sortStrings(String[] array) {
         SelectionSort.sort(array);
-        assertThat(SortingHelper.isSorted(array)).isTrue();
+        assertThat(AlgorithmsHelper.isSorted(array)).isTrue();
     }
 
     private Object[][] provideIntegerCases() {

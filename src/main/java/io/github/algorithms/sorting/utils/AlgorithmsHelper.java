@@ -1,6 +1,6 @@
 package io.github.algorithms.sorting.utils;
 
-public class SortingHelper {
+public class AlgorithmsHelper {
 
     @SuppressWarnings("rawtypes")
     public static void swap(Comparable[] array, int i, int j) {

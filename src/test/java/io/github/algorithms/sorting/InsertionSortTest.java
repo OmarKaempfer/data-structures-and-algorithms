@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import static io.github.algorithms.sorting.utils.SortingHelper.isSorted;
+import static io.github.algorithms.sorting.utils.AlgorithmsHelper.isSorted;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(JUnitParamsRunner.class)

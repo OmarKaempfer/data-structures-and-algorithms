@@ -1,6 +1,6 @@
 package io.github.algorithms.sorting;
 
-import io.github.algorithms.sorting.utils.SortingHelper;
+import io.github.algorithms.sorting.utils.AlgorithmsHelper;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class MergeSortTest {
         MergeSort.merge(array, aux, 0, mid, high);
 
         System.out.println(Arrays.toString(array));
-        assertThat(SortingHelper.isSorted(array)).isTrue();
+        assertThat(AlgorithmsHelper.isSorted(array)).isTrue();
     }
 
     private Object[][] provideTestCases() {
@@ -42,7 +42,7 @@ public class MergeSortTest {
         MergeSort.sort(array);
         System.out.println(Arrays.toString(array));
 
-        assertThat(SortingHelper.isSorted(array));
+        assertThat(AlgorithmsHelper.isSorted(array));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MergeSortTest {
         MergeSort.bottomUpSort(array);
         System.out.println(Arrays.toString(array));
 
-        assertThat(SortingHelper.isSorted(array));
+        assertThat(AlgorithmsHelper.isSorted(array));
     }
 
     private Object[][] provideSortCases() {

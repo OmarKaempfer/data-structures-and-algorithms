@@ -1,6 +1,6 @@
 package io.github.algorithms.sorting;
 
-import static io.github.algorithms.sorting.utils.SortingHelper.*;
+import static io.github.algorithms.sorting.utils.AlgorithmsHelper.*;
 
 public class MergeSort {
 

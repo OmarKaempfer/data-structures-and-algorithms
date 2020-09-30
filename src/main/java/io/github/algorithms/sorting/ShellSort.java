@@ -1,7 +1,7 @@
 package io.github.algorithms.sorting;
 
-import static io.github.algorithms.sorting.utils.SortingHelper.less;
-import static io.github.algorithms.sorting.utils.SortingHelper.swap;
+import static io.github.algorithms.sorting.utils.AlgorithmsHelper.less;
+import static io.github.algorithms.sorting.utils.AlgorithmsHelper.swap;
 
 public class ShellSort {
 
