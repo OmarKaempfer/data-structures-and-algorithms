@@ -15,6 +15,11 @@ public class AlgorithmsHelper {
         return a.compareTo(b) < 0;
     }
 
+    @SuppressWarnings("rawtypes, unchecked")
+    public static boolean lessOrEqual(Comparable a, Comparable b) {
+        return a.compareTo(b) <= 0;
+    }
+
     @SuppressWarnings("rawtypes")
     public static boolean isSorted(Comparable[] array) {
         for (int i = 1; i < array.length; i++) {
