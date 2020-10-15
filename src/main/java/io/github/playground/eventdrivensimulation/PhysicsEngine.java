@@ -30,17 +30,35 @@ public class PhysicsEngine {
     public void move(Ball ball, double dt) {
 
         double newxPos = newxPos(ball, dt);
-        if(newxPos - ball.radius < 0 || newxPos + ball.radius > width) {
-            ball.xVelocity = (-1) * ball.xVelocity;
-        }
-
         double newyPos = newyPos(ball, dt);
-        if(newyPos - ball.radius < 0 || newyPos + ball.radius > height) {
-            ball.yVelocity = (-1) * ball.yVelocity;
-        }
 
         ball.xPosition = newxPos;
         ball.yPosition = newyPos;
+
+        if(escapingVerticalBounds(ball, newxPos)) {
+            bounceOffHorizontalWall(ball);
+        }
+
+        if(escapingHorizontalBounds(ball, newyPos)) {
+            bounceOffVerticalWall(ball);
+        }
+
+    }
+
+    private void bounceOffVerticalWall(Ball ball) {
+        ball.yVelocity = (-1) * ball.yVelocity;
+    }
+
+    private void bounceOffHorizontalWall(Ball ball) {
+        ball.xVelocity = (-1) * ball.xVelocity;
+    }
+
+    private boolean escapingHorizontalBounds(Ball ball, double newyPos) {
+        return (newyPos - ball.radius < 0 && ball.yVelocity < 0) || (newyPos + ball.radius > height && ball.yVelocity > 0);
+    }
+
+    private boolean escapingVerticalBounds(Ball ball, double newxPos) {
+        return (newxPos - ball.radius < 0 && ball.xVelocity < 0) || (newxPos + ball.radius > width && ball.xVelocity > 0);
     }
 
     private double newxPos(Ball ball, double dt) {
