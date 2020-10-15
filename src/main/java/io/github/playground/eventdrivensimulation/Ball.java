@@ -6,9 +6,14 @@ public class Ball {
 
     public double xPosition;
     public double yPosition;
+
     public double xVelocity;
     public double yVelocity;
+
     public double radius;
+
+    public double mass;
+
 
     public Ball() {
     }
@@ -51,5 +56,13 @@ public class Ball {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
     }
 }

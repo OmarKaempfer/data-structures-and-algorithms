@@ -36,7 +36,7 @@ public class Canvas extends JPanel implements ActionListener {
         repaint();
     }
 
-    public void addNewDrawing(Consumer<Graphics> drawingCall) {
+    public void addNewDrawingCommand(Consumer<Graphics> drawingCall) {
         this.drawingCalls.add(drawingCall);
     }
 }
